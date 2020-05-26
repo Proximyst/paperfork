@@ -1,0 +1,153 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Mariell Hoversholm <proximyst@proximyst.com>
+Date: Tue, 26 May 2020 20:16:27 +0200
+Subject: [PATCH] Papercut brand change
+
+
+diff --git a/pom.xml b/pom.xml
+index e4c63bb76cb598545f9d215a8859724d6e7f8b81..ebab375518ff9e76c320cd64fa17e09b9156adb4 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -1,11 +1,11 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+-    <artifactId>paper</artifactId>
++    <artifactId>paperfork</artifactId> <!-- PaperFork -->
+     <packaging>jar</packaging>
+     <version>1.15.2-R0.1-SNAPSHOT</version>
+-    <name>Paper</name>
+-    <url>https://papermc.io</url>
++    <name>PaperFork</name> <!-- PaperFork -->
++    <url>https://github.com/Proximyst/PaperFork</url> <!-- PaperFork -->
+ 
+     <properties>
+         <!-- <skipTests>true</skipTests> Paper - This [was] not going to end well -->
+@@ -18,16 +18,16 @@
+     </properties>
+ 
+     <parent>
+-        <groupId>com.destroystokyo.paper</groupId>
+-        <artifactId>paper-parent</artifactId>
++        <groupId>tld.paperfork</groupId> <!-- PaperFork -->
++        <artifactId>paperfork-parent</artifactId> <!-- PaperFork -->
+         <version>dev-SNAPSHOT</version>
+-        <relativePath>../pom.xml</relativePath>
++        <relativePath>../pom.xml</relativePath> <!-- PaperFork -->
+     </parent>
+ 
+     <dependencies>
+         <dependency>
+-            <groupId>com.destroystokyo.paper</groupId>
+-            <artifactId>paper-api</artifactId>
++            <groupId>tld.paperfork</groupId> <!-- PaperFork -->
++            <artifactId>paperfork-api</artifactId> <!-- PaperFork -->
+             <version>${project.version}</version>
+             <scope>compile</scope>
+         </dependency>
+@@ -164,7 +164,7 @@
+ 
+     <!-- This builds a completely 'ready to start' jar with all dependencies inside -->
+     <build>
+-        <finalName>paper-${minecraft.version}</finalName>
++        <finalName>paperfork-${minecraft.version}</finalName> <!-- PaperFork -->
+         <defaultGoal>clean install</defaultGoal> <!-- Paper -->
+         <plugins>
+             <plugin>
+@@ -172,7 +172,7 @@
+                 <artifactId>gitdescribe-maven-plugin</artifactId>
+                 <version>1.3</version>
+                 <configuration>
+-                    <outputPrefix>git-Paper-</outputPrefix>
++                    <outputPrefix>git-PaperFork-</outputPrefix> <!-- PaperFork -->
+                     <scmDirectory>..</scmDirectory>
+                 </configuration>
+                 <executions>
+diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
+index 49a38c6608b652ff48ef4eaca0dd3ccb1ba570e3..aab0321913ea6c86a55c8f4a353a6fce69f6356d 100644
+--- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
++++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
+@@ -24,8 +24,8 @@ public class PaperVersionFetcher implements VersionFetcher {
+     @Nonnull
+     @Override
+     public String getVersionMessage(@Nonnull String serverVersion) {
+-        String[] parts = serverVersion.substring("git-Paper-".length()).split("[-\\s]");
+-        String updateMessage = getUpdateStatusMessage("PaperMC/Paper", GITHUB_BRANCH_NAME, parts[0]);
++        String[] parts = serverVersion.substring("git-PaperFork-".length()).split("[-\\s]"); // PaperFork
++        String updateMessage = getUpdateStatusMessage("Minevictus/PaperFork", GITHUB_BRANCH_NAME, parts[0]); // PaperFork
+         String history = getHistory();
+ 
+         return history != null ? history + "\n" + updateMessage : updateMessage;
+@@ -49,13 +49,15 @@ public class PaperVersionFetcher implements VersionFetcher {
+ 
+     private static String getUpdateStatusMessage(@Nonnull String repo, @Nonnull String branch, @Nonnull String versionInfo) {
+         int distance;
+-        try {
+-            int jenkinsBuild = Integer.parseInt(versionInfo);
+-            distance = fetchDistanceFromSiteApi(jenkinsBuild, getMinecraftVersion());
+-        } catch (NumberFormatException ignored) {
++        // PaperFork start - we don't have jenkins set up for this
++//        try {
++//            int jenkinsBuild = Integer.parseInt(versionInfo);
++//            distance = fetchDistanceFromSiteApi(jenkinsBuild, getMinecraftVersion());
++//        } catch (NumberFormatException ignored) {
+             versionInfo = versionInfo.replace("\"", "");
+             distance = fetchDistanceFromGitHub(repo, branch, versionInfo);
+-        }
++//        }
++        // PaperFork end
+ 
+         switch (distance) {
+             case -1:
+diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
+index 4ab6579032043f570c20befa7fef8931babd2355..c386d8d0c930b417050ad98f3d4c9d279e8222ed 100644
+--- a/src/main/java/net/minecraft/server/MinecraftServer.java
++++ b/src/main/java/net/minecraft/server/MinecraftServer.java
+@@ -1570,7 +1570,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+     }
+ 
+     public String getServerModName() {
+-        return "Paper"; //Paper - Paper > // Spigot - Spigot > // CraftBukkit - cb > vanilla!
++        return "PaperFork"; // PaperFork - PaperFork > //Paper - Paper > // Spigot - Spigot > // CraftBukkit - cb > vanilla!
+     }
+ 
+     public CrashReport b(CrashReport crashreport) {
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+index 568aefdf698facfc36edacc9332e83196c0d80bc..130aa550272a1b9b6e9768d9e619dceeed65d2bf 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+@@ -205,7 +205,7 @@ import javax.annotation.Nullable; // Paper
+ import javax.annotation.Nonnull; // Paper
+ 
+ public final class CraftServer implements Server {
+-    private final String serverName = "Paper"; // Paper
++    private final String serverName = "PaperFork"; // Paper
+     private final String serverVersion;
+     private final String bukkitVersion = Versioning.getBukkitVersion();
+     private final Logger logger = Logger.getLogger("Minecraft");
+diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
+index d6e5d014c0d81f5f7cff6638ccfc2e983fea53d9..7765f5d9cb002d391a219ee5d350b6f817182c21 100644
+--- a/src/main/java/org/bukkit/craftbukkit/Main.java
++++ b/src/main/java/org/bukkit/craftbukkit/Main.java
+@@ -252,7 +252,7 @@ public class Main {
+                     if (buildDate.before(deadline.getTime())) {
+                         // Paper start - This is some stupid bullshit
+                         System.err.println("*** Warning, you've not updated in a while! ***");
+-                        System.err.println("*** Please download a new build as per instructions from https://papermc.io/downloads ***"); // Paper
++                        System.err.println("*** Please download a new build ***"); // Paper // PaperFork - remove papermc.io link
+                         //System.err.println("*** Server will start in 20 seconds ***");
+                         //Thread.sleep(TimeUnit.SECONDS.toMillis(20));
+                         // Paper End
+diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
+index 674096cab190d62622f9947853b056f57d43a2a5..aaefa72206601bf08ee882a06b7fa27fd0f6391a 100644
+--- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
+@@ -11,7 +11,7 @@ public final class Versioning {
+     public static String getBukkitVersion() {
+         String result = "Unknown-Version";
+ 
+-        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/com.destroystokyo.paper/paper-api/pom.properties");
++        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/tld.paperfork/paperfork-api/pom.properties"); // PaperFork
+         Properties properties = new Properties();
+ 
+         if (stream != null) {

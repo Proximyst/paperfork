@@ -1,0 +1,21 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>tld.paperfork</groupId>
+    <artifactId>paperfork-parent</artifactId>
+    <version>dev-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>PaperFork (Parent)</name>
+
+    <repositories>
+        <repository>
+            <id>aikar</id>
+            <url>https://repo.aikar.co/content/groups/aikar/</url>
+        </repository>
+    </repositories>
+
+    <modules>
+        <module>PaperFork-API</module>
+        <module>PaperFork-Server</module>
+    </modules>
+</project>
