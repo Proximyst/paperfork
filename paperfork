@@ -143,7 +143,7 @@ case "$1" in
         fi
     ;;
     *)
-        echo "PaperFork build tool command. This provides a variety of commands to build and manage the PaperMC build"
+        echo "${FORK_NAME} build tool command. This provides a variety of commands to build and manage the PaperMC build"
         echo "environment. For all of the functionality of this command to be available, you must first run the"
         echo "'setup' command. View below for details. For essential building and patching, you do not need to do the setup."
         echo ""

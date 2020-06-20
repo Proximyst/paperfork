@@ -9,6 +9,7 @@ PAPER_SERVER_REPO=""
 PAPER_MOJANGAPI_REPO=""
 MCDEV_REPO=""
 # END config
+FORK_NAME_LC=$(echo "$FORK_NAME" | tr '[:upper:]' '[:lower:]')
 
 sourceBase=$(dirname $SOURCE)/../
 cd "${basedir:-$sourceBase}"
