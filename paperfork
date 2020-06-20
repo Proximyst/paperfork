@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+shopt -s nocasematch
 # exit immediately if a command exits with a non-zero status
 set -e
 # get base dir regardless of execution location
@@ -41,13 +42,50 @@ case "$1" in
         scripts/apply.sh "$basedir"
     )
     ;;
+    "e" | "edit" ) # Courtesy Origami
+        case "$2" in
+            "s" | "server")
+            type="Server"
+            ;;
+            "m" | "mojang" | "mojangapi")
+            type="MojangAPI"
+            ;;
+            "a" | "api")
+            type="API"
+            ;;
+            *)
+                echo "You must edit either the api or server."
+            ;;
+        esac
+        if [ $type ]; then
+            cd "$basedir/${FORK_NAME}-$type"
+            set -e
+            case "$3" in
+                "c" | "continue")
+                (
+                    $gitcmd add .
+                    $gitcmd commit --amend
+                    $gitcmd rebase --continue
+
+                    cd "$basedir"
+                    scripts/rebuildPatches.sh $2
+                )
+                ;;
+                *)
+                    paperstash
+                    $gitcmd rebase -i upstream/upstream
+                    paperunstash
+                ;;
+            esac
+        fi
+    ;;
     "b" | "bu" | "build")
     (
         basedir
         mvn -N install
-        cd ${FORK_NAME}-API && mvn -e clean install
-        cd ../Paper/Paper-MojangAPI && mvn -e clean install
-        cd ../../${FORK_NAME}-Server && mvn -e clean install
+        cd ${FORK_NAME}-API && mvn -e clean install &&
+            \ cd ../${FORK_NAME}-MojangAPI && mvn -e clean install &&
+            \ cd ../${FORK_NAME}-Server && mvn -e clean install
     )
     ;;
     "jar" | "paperclip")
@@ -85,10 +123,13 @@ case "$1" in
         cd "$basedir"
     ;;
     "a" | "api")
-        cd "$basedir/PaperFork-API"
+        cd "$basedir/${FORK_NAME}-API"
+    ;;
+    "m" | "mojang" | "mojangapi" | "mojang-api")
+        cd "$basedir/${FORK_NAME}-MojangAPI"
     ;;
     "s" | "server")
-        cd "$basedir/PaperFork-Server"
+        cd "$basedir/${FORK_NAME}-Server"
     ;;
     "setup")
         if [[ -f ~/.bashrc ]] ; then
@@ -115,8 +156,9 @@ case "$1" in
         echo ""
         echo " These commands require the setup command before use:"
         echo "  * r, root      | Change directory to the root of the project."
-        echo "  * a. api       | Move to the Paper-API directory."
-        echo "  * s, server    | Move to the Paper-Server directory."
+        echo "  * a, api       | Move to the ${FORK_NAME}-API directory."
+        echo "  * m, mojangapi | Move to the ${FORK_NAME}-API directory."
+        echo "  * s, server    | Move to the ${FORK_NAME}-Server directory."
         echo "  * e, edit      | Use to edit a specific patch, give it the argument \"server\" or \"api\""
         echo "                 | respectively to edit the correct project. Use the argument \"continue\" after"
         echo "                 | the changes have been made to finish and rebuild patches. Can be called from anywhere."

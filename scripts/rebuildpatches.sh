@@ -12,6 +12,10 @@ PS1="$"
 echo "Rebuilding patch files from current fork state..."
 function savePatches {
     what=$1
+    if [ ! -d "$basedir/$what" ]; then
+        echo " No source in $basedir/$what - nothing to rebuild."
+        return
+    fi
     cd $basedir/$what/
 
     mkdir -p $basedir/patches/$2
@@ -38,6 +42,7 @@ function savePatches {
 }
 
 savePatches ${FORK_NAME}-API api
+savePatches ${FORK_NAME}-MojangAPI mojangapi
 savePatches ${FORK_NAME}-Server server
 
 $basedir/scripts/push.sh

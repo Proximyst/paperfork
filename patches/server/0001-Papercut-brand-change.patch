@@ -5,7 +5,7 @@ Subject: [PATCH] Papercut brand change
 
 
 diff --git a/pom.xml b/pom.xml
-index e4c63bb76cb598545f9d215a8859724d6e7f8b81..ebab375518ff9e76c320cd64fa17e09b9156adb4 100644
+index e4c63bb76cb598545f9d215a8859724d6e7f8b81..169e66fa7c0655eea70bd513739d76af138cc1b8 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -1,11 +1,11 @@
@@ -23,7 +23,7 @@ index e4c63bb76cb598545f9d215a8859724d6e7f8b81..ebab375518ff9e76c320cd64fa17e09b
  
      <properties>
          <!-- <skipTests>true</skipTests> Paper - This [was] not going to end well -->
-@@ -18,16 +18,16 @@
+@@ -18,22 +18,22 @@
      </properties>
  
      <parent>
@@ -42,6 +42,14 @@ index e4c63bb76cb598545f9d215a8859724d6e7f8b81..ebab375518ff9e76c320cd64fa17e09b
 -            <artifactId>paper-api</artifactId>
 +            <groupId>tld.paperfork</groupId> <!-- PaperFork -->
 +            <artifactId>paperfork-api</artifactId> <!-- PaperFork -->
+             <version>${project.version}</version>
+             <scope>compile</scope>
+         </dependency>
+         <dependency>
+-            <groupId>com.destroystokyo.paper</groupId>
+-            <artifactId>paper-mojangapi</artifactId>
++            <groupId>tld.paperfork</groupId> <!-- PaperFork -->
++            <artifactId>paperfork-mojangapi</artifactId> <!-- PaperFork -->
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>

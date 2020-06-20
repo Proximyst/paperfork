@@ -16,6 +16,7 @@
 
     <modules>
         <module>PaperFork-API</module>
+        <module>PaperFork-MojangAPI</module>
         <module>PaperFork-Server</module>
     </modules>
 </project>

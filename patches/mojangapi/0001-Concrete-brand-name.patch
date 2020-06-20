@@ -1,0 +1,45 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Mariell Hoversholm <proximyst@proximyst.com>
+Date: Sun, 21 Jun 2020 00:36:44 +0200
+Subject: [PATCH] Concrete brand name
+
+
+diff --git a/pom.xml b/pom.xml
+index d0da7daf4e9e1d414770301edd2d780a69fa28ab..eba24722bf07280d537d9971ddfb358e04cd7ba7 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -3,18 +3,17 @@
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <parent>
+-        <groupId>com.destroystokyo.paper</groupId>
+-        <artifactId>paper-parent</artifactId>
++        <groupId>tld.paperfork</groupId> <!-- PaperFork -->
++        <artifactId>paperfork-parent</artifactId> <!-- PaperFork -->
+         <version>dev-SNAPSHOT</version>
+     </parent>
+ 
+-    <groupId>com.destroystokyo.paper</groupId>
+-    <artifactId>paper-mojangapi</artifactId>
++    <artifactId>paperfork-mojangapi</artifactId> <!-- PaperFork -->
+     <version>1.15.2-R0.1-SNAPSHOT</version>
+     <packaging>jar</packaging>
+ 
+-    <name>Paper-MojangAPI</name>
+-    <url>https://github.com/PaperMC/Paper</url>
++    <name>PaperFork-MojangAPI</name> <!-- PaperFork -->
++    <url>https://github.com/Proximyst/PaperFork</url> <!-- PaperFork -->
+     <description>API additions that utilize Mojang Specific API's</description>
+ 
+     <properties>
+@@ -49,8 +48,8 @@
+ 
+     <dependencies>
+         <dependency>
+-            <groupId>com.destroystokyo.paper</groupId>
+-            <artifactId>paper-api</artifactId>
++            <groupId>tld.paperfork</groupId> <!-- PaperFork -->
++            <artifactId>paperfork-api</artifactId> <!-- PaperFork -->
+             <version>${project.version}</version>
+             <scope>provided</scope>
+         </dependency>
